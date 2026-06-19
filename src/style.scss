@@ -1,0 +1,104 @@
+/**
+ * @author tknight-dev
+ */
+
+body,
+html {
+	background-color: rgb(32, 32, 32);
+	color: white;
+	font-size: 16px;
+
+	a {
+		color: white;
+	}
+
+	button {
+		height: 40px;
+		min-width: 50px;
+		padding: 5px;
+	}
+
+	.content,
+	.controls {
+		background-color: rgba(0, 0, 0, 0.125);
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		border-radius: 5px;
+		margin-top: 40px;
+		padding: 10px;
+		position: relative;
+
+		&::before {
+			left: 0;
+			font-family: monospace;
+			font-size: 12px;
+			position: absolute;
+			top: -15px;
+		}
+	}
+
+	.content {
+		&::before {
+			content: 'Settings';
+		}
+
+		table {
+			border-collapse: collapse;
+			border-radius: 5px;
+			box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.1);
+			overflow: hidden;
+			width: 100%;
+
+			tr {
+				height: 30px;
+
+				&:nth-child(even) {
+					background-color: rgba(255, 255, 255, 0.05);
+				}
+
+				&:nth-child(odd) {
+					background-color: rgba(0, 0, 0, 0.1);
+				}
+
+				td {
+					height: 30px;
+
+					&:first-child {
+						padding-right: 5px;
+						text-align: right;
+					}
+				}
+			}
+		}
+	}
+
+	.controls {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+
+		&::before {
+			content: 'Controls';
+		}
+
+		button {
+			&:not(first-child) {
+				margin-left: 20px;
+			}
+		}
+	}
+
+	.video {
+		background-color: white;
+		border: 1px solid white;
+		box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.25);
+		margin-left: calc(50% - 320px);
+		width: 640px;
+	}
+
+	@media (max-width: 600px) {
+		.video {
+			margin-left: 0;
+			max-width: 100%;
+		}
+	}
+}
