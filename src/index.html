@@ -15,17 +15,38 @@
 	</head>
 
 	<body id="body">
+		<div class="fps" id="fps"></div>
 		<div class="video" id="video"></div>
-		<center>"<i>Your Animation Here</i>" is a place holder for your game</center>
 		<div class="controls" id="controls">
-			<button id="controls-start">Start Credits</button>
+			<button autocomplete="off" id="controls-pause" disabled>Pause</button>
+			<button autocomplete="off" id="controls-play" disabled>Play</button>
+			<button autocomplete="off" id="controls-start">Start</button>
+			<button autocomplete="off" id="controls-stop" disabled>Stop</button>
 		</div>
 		<div class="content" id="content">
 			<table>
 				<tr>
 					<td>Debug:</td>
-					<td><input autocomplete="off" type="checkbox" id="settings-debug" /></td>
-					<td>Show outlines around HTML elements within a frame</td>
+					<td><input autocomplete="off" type="checkbox" id="settings-debug" checked/></td>
+					<td>Show outlines around HTML elements</td>
+				</tr>
+				<tr>
+					<td>Duration:</td>
+					<td>
+						<input autocomplete="off" type="range" id="settings-duration" value=10000 min=1000 max=60000 step=1000 style="width: calc(100% - 60px)"/>
+						<input autocomplete="off" type="text" id="settings-duration-value" value="10s" style="width: 30px" />
+					</td>
+					<td>How long the credits run for</td>
+				</tr>
+				<tr>
+					<td>Scroll End On Last Element:</td>
+					<td><input autocomplete="off" type="checkbox" id="settings-scrollStopOnLastElement" checked/></td>
+					<td>The credits should end with the last element centered on the screen</td>
+				</tr>
+				<tr>
+					<td>Scroll Reverse:</td>
+					<td><input autocomplete="off" type="checkbox" id="settings-scrollReverse"/></td>
+					<td>Display contents and scroll in reverse</td>
 				</tr>
 			</table>
 		</div>
