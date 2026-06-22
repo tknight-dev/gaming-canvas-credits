@@ -23,6 +23,25 @@
 			<button autocomplete="off" id="controls-start">Start</button>
 			<button autocomplete="off" id="controls-stop" disabled>Stop</button>
 		</div>
+		<div class="keys">
+			<table>
+				<tr>
+					<td>Keyboard</td>
+					<td>"Escape"</td>
+					<td>Gracefully End</td>
+				</tr>
+				<tr>
+					<td>Keyboard</td>
+					<td>"KeyQ"</td>
+					<td>Stop</td>
+				</tr>
+				<tr>
+					<td>Keyboard</td>
+					<td>"Space"</td>
+					<td>Pause/Play</td>
+				</tr>
+			</table>
+		</div>
 		<div class="content" id="content">
 			<table>
 				<tr>
@@ -39,14 +58,19 @@
 					<td>How long the credits run for</td>
 				</tr>
 				<tr>
-					<td>Scroll End On Last Element:</td>
+					<td>Scroll Stop On Last Element:</td>
 					<td><input autocomplete="off" type="checkbox" id="settings-scrollStopOnLastElement" checked/></td>
 					<td>The credits should end with the last element centered on the screen</td>
 				</tr>
 				<tr>
-					<td>Scroll Reverse:</td>
-					<td><input autocomplete="off" type="checkbox" id="settings-scrollReverse"/></td>
-					<td>Display contents and scroll in reverse</td>
+					<td>Scroll Direction Reverse:</td>
+					<td><input autocomplete="off" type="checkbox" id="settings-scrollDirectionReverse"/></td>
+					<td>Display scroll in reverse</td>
+				</tr>
+				<tr>
+					<td>Scroll Order Reverse:</td>
+					<td><input autocomplete="off" type="checkbox" id="settings-scrollOrderReverse"/></td>
+					<td>Display scroll contents in reverse</td>
 				</tr>
 			</table>
 		</div>

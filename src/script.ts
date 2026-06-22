@@ -13,11 +13,13 @@ import {
 	GamingCanvasCreditsContentText,
 	GamingCanvasCreditsContentTextType,
 	GamingCanvasCreditsContentType,
+	GamingCanvasCreditsInputAction,
 	GamingCanvasCreditsPerson,
 	GamingCanvasDoubleLinkedList,
 	GamingCanvasDoubleLinkedListNode,
 	GamingCanvasFIFOQueue,
 	GamingCanvasInput,
+	GamingCanvasInputInstance,
 	GamingCanvasInputMouse,
 	GamingCanvasInputMouseAction,
 	GamingCanvasInputTouch,
@@ -50,7 +52,8 @@ class Credits {
 	private static domSettingsDebug: HTMLInputElement;
 	private static domSettingsDuration: HTMLInputElement;
 	private static domSettingsDurationValue: HTMLInputElement;
-	private static domSettingsScrollReverse: HTMLInputElement;
+	private static domSettingsScrollDirectionReverse: HTMLInputElement;
+	private static domSettingsScrollOrderReverse: HTMLInputElement;
 	private static domSettingsScrollStopOnLastElement: HTMLInputElement;
 	private static gameLoopRequest: number;
 	private static inputs: GamingCanvasFIFOQueue<GamingCanvasInput>;
@@ -109,8 +112,29 @@ class Credits {
 			// cssDefaultPaddingTop?: string;
 			debug: Credits.domSettingsDebug.checked,
 			durationInMs: 10000,
+			inputActions: {
+				[GamingCanvasCreditsInputAction.END]: [
+					{
+						code: 'Escape',
+						type: GamingCanvasInputType.KEYBOARD,
+					},
+				],
+				[GamingCanvasCreditsInputAction.PAUSE_TOGGLE]: [
+					{
+						code: 'Space',
+						type: GamingCanvasInputType.KEYBOARD,
+					},
+				],
+				[GamingCanvasCreditsInputAction.STOP]: [
+					{
+						code: 'KeyQ',
+						type: GamingCanvasInputType.KEYBOARD,
+					},
+				],
+			},
 			// inputPassthrough?: boolean;
-			scrollReverse: Credits.domSettingsScrollReverse.checked,
+			scrollDirectionReverse: Credits.domSettingsScrollDirectionReverse.checked,
+			scrollOrderReverse: Credits.domSettingsScrollOrderReverse.checked,
 			scrollStopOnLastElement: Credits.domSettingsScrollStopOnLastElement.checked,
 			zIndexBackground: 15,
 			zIndexContent: 17,
@@ -396,7 +420,8 @@ class Credits {
 			Credits.domSettingsDurationValue.value = Math.round(Number(Credits.domSettingsDuration.value) / 1000) + 's';
 		};
 		Credits.domSettingsDurationValue = <HTMLInputElement>document.getElementById('settings-duration-value');
-		Credits.domSettingsScrollReverse = <HTMLInputElement>document.getElementById('settings-scrollReverse');
+		Credits.domSettingsScrollDirectionReverse = <HTMLInputElement>document.getElementById('settings-scrollDirectionReverse');
+		Credits.domSettingsScrollOrderReverse = <HTMLInputElement>document.getElementById('settings-scrollOrderReverse');
 		Credits.domSettingsScrollStopOnLastElement = <HTMLInputElement>document.getElementById('settings-scrollStopOnLastElement');
 	}
 
@@ -406,8 +431,8 @@ class Credits {
 			audioEnable: true,
 			canvasCount: 1,
 			// debug: true,
-			inputGamepadEnable: false,
-			inputKeyboardEnable: false,
+			inputGamepadEnable: true,
+			inputKeyboardEnable: true,
 			inputMouseEnable: true,
 			inputTouchEnable: true,
 			orientation: GamingCanvasOrientation.LANDSCAPE,
@@ -419,6 +444,15 @@ class Credits {
 
 		GamingCanvas.setCreditsCallbackFPS((fps: number) => {
 			Credits.domFPS.innerText = String(fps);
+		});
+		GamingCanvas.setCreditsCallbackPause((state: boolean) => {
+			if (state === true) {
+				Credits.domControlsPlay.disabled = false;
+				Credits.domControlsPause.disabled = true;
+			} else {
+				Credits.domControlsPlay.disabled = true;
+				Credits.domControlsPause.disabled = false;
+			}
 		});
 		GamingCanvas.setCreditsCallbackState((state: boolean) => {
 			Credits.domControlsStart.disabled = state;
