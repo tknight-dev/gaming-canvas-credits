@@ -44,6 +44,7 @@ enum AssetId {
 
 class Credits {
 	private static canvases: HTMLCanvasElement[];
+	private static domControlsEnd: HTMLButtonElement;
 	private static domControlsPause: HTMLButtonElement;
 	private static domControlsPlay: HTMLButtonElement;
 	private static domControlsStart: HTMLButtonElement;
@@ -382,6 +383,15 @@ class Credits {
 	}
 
 	private static async initializeDOM(): Promise<void> {
+		Credits.domControlsEnd = <HTMLButtonElement>document.getElementById('controls-end');
+		Credits.domControlsEnd.onclick = async () => {
+			if (GamingCanvas.creditsControlEnd() === true) {
+				Credits.domControlsEnd.disabled = true;
+				Credits.domControlsPlay.disabled = true;
+				Credits.domControlsPause.disabled = true;
+				Credits.domControlsStop.disabled = true;
+			}
+		};
 		Credits.domControlsPause = <HTMLButtonElement>document.getElementById('controls-pause');
 		Credits.domControlsPause.onclick = async () => {
 			if (GamingCanvas.creditsControlPause() === true) {
@@ -455,6 +465,7 @@ class Credits {
 			}
 		});
 		GamingCanvas.setCreditsCallbackState((state: boolean) => {
+			Credits.domControlsEnd.disabled = !state;
 			Credits.domControlsStart.disabled = state;
 			Credits.domControlsStop.disabled = !state;
 
