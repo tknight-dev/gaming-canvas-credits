@@ -42,6 +42,12 @@ enum AssetId {
 	TRAVEL,
 }
 
+enum CreditsCollectionId {
+	COLUMN_SINGLE,
+	COLUMN_DOUBLE,
+	COLUMN_TRIPLE,
+}
+
 class Credits {
 	private static canvases: HTMLCanvasElement[];
 	private static domControlsEnd: HTMLButtonElement;
@@ -64,14 +70,6 @@ class Credits {
 			content: [
 				{
 					contentType: GamingCanvasCreditsContentType.TEXT,
-					// cssFontColor?: string;
-					// cssFontFamily?: string;
-					// cssFontSize?: string;
-					// cssJustifyContent?: 'center' | 'flex-start' | 'flex-end'; // Defaults to center
-					// cssPaddingBottom?: string; // 50%, 12px, defaults to 0
-					// cssPaddingLeft?: string; // 50%, 12px, defaults to 0
-					// cssPaddingRight?: string; // 50%, 12px, defaults to 0
-					// cssPaddingTop?: string; // 50%, 12px, defaults to 0
 					value: 'Body',
 				},
 				{
@@ -100,19 +98,60 @@ class Credits {
 				{
 					contentType: GamingCanvasCreditsContentType.TEXT,
 					type: GamingCanvasCreditsContentTextType.HEADER_01,
+					value: '3rd Party',
+				},
+				{
+					contentType: GamingCanvasCreditsContentType.TEXT,
+					type: GamingCanvasCreditsContentTextType.HEADER_04,
+					value: 'Single Column: Ascending',
+				},
+				{
+					columns: 1,
+					contentType: GamingCanvasCreditsContentType.COLLECTION,
+					id: CreditsCollectionId.COLUMN_SINGLE,
+				},
+				{
+					contentType: GamingCanvasCreditsContentType.SPACER,
+					cssHeight: '25%',
+				},
+				{
+					contentType: GamingCanvasCreditsContentType.TEXT,
+					type: GamingCanvasCreditsContentTextType.HEADER_04,
+					value: 'Double Column: Descending',
+				},
+				{
+					columns: 2,
+					contentType: GamingCanvasCreditsContentType.COLLECTION,
+					exposeWebsiteLink: false,
+					id: CreditsCollectionId.COLUMN_DOUBLE,
+					sortPersons: GamingCanvasCreditsContentCollectionSort.DESCENDING,
+				},
+				{
+					contentType: GamingCanvasCreditsContentType.SPACER,
+					cssHeight: '25%',
+				},
+				{
+					contentType: GamingCanvasCreditsContentType.TEXT,
+					type: GamingCanvasCreditsContentTextType.HEADER_04,
+					value: 'Triple Column: Ascending',
+				},
+				{
+					columns: 3,
+					contentType: GamingCanvasCreditsContentType.COLLECTION,
+					id: CreditsCollectionId.COLUMN_TRIPLE,
+					exposeWebsiteLink: false,
+				},
+				{
+					contentType: GamingCanvasCreditsContentType.SPACER,
+				},
+				{
+					contentType: GamingCanvasCreditsContentType.TEXT,
+					type: GamingCanvasCreditsContentTextType.HEADER_01,
 					value: 'Thank You!',
 				},
 			],
-			// cssBackgroundColor?: string;
-			// cssDefaultFontColor?: string;
-			// cssDefaultFontFamily?: string;
-			// cssDefaultFontSize?: string;
-			// cssDefaultPaddingBottom?: string;
-			// cssDefaultPaddingLeft?: string;
-			// cssDefaultPaddingRight?: string;
-			// cssDefaultPaddingTop?: string;
 			debug: Credits.domSettingsDebug.checked,
-			durationInMs: 10000,
+			durationInMs: Number(Credits.domSettingsDuration.value),
 			inputActions: {
 				[GamingCanvasCreditsInputAction.END]: [
 					{
@@ -133,7 +172,6 @@ class Credits {
 					},
 				],
 			},
-			// inputPassthrough?: boolean;
 			scrollDirectionReverse: Credits.domSettingsScrollDirectionReverse.checked,
 			scrollOrderReverse: Credits.domSettingsScrollOrderReverse.checked,
 			scrollStopOnLastElement: Credits.domSettingsScrollStopOnLastElement.checked,
@@ -149,6 +187,7 @@ class Credits {
 			cacheCanvasCursorSizeHalf: number = cacheCanvasCursorSize / 2,
 			canvas: HTMLCanvasElement = Credits.canvases[0],
 			canvasHeight: number = GamingCanvas.getReport().canvasHeight,
+			canvasHeightHalf: number = canvasHeight / 2,
 			canvasWidth: number = GamingCanvas.getReport().canvasWidth,
 			canvasWidthHalf: number = canvasWidth / 2,
 			context: CanvasRenderingContext2D,
@@ -336,6 +375,18 @@ class Credits {
 				context.fill();
 				context.stroke();
 
+				// Draw Text
+				context.fillStyle = 'black';
+				context.font = '30px Arial';
+				context.textAlign = 'center';
+				context.fillText('<-- PAN -->', canvasWidthHalf, 30);
+
+				context.save();
+				context.translate(50, canvasHeightHalf);
+				context.rotate(Math.PI / 2);
+				context.fillText('<-- VOLUME -->', 0, 30);
+				context.restore();
+
 				// Draw Cursor
 				if (inputMouse === true) {
 					context.drawImage(cacheCanvasCursor, pointerX - cacheCanvasCursorSizeHalf, pointerY - cacheCanvasCursorSizeHalf);
@@ -369,8 +420,8 @@ class Credits {
 						particles.remove(particle);
 
 						pan = particle.data.x / canvasWidthHalf - 1;
-						volume = ((particle.data.x - canvasWidthHalf) ** 2 + (particle.data.y - canvasHeight) ** 2) ** 0.5 - 345;
-						GamingCanvas.audioControlPlay(AssetId.EXPLOSION, GamingCanvasAudioType.EFFECT, false, pan, 0, 1 - volume / 150);
+						volume = Math.max(0.05, particle.data.y / canvasHeight + 0.37);
+						GamingCanvas.audioControlPlay(AssetId.EXPLOSION, GamingCanvasAudioType.EFFECT, false, pan, 0, volume);
 					}
 
 					particle = particle.next;
@@ -433,6 +484,9 @@ class Credits {
 		Credits.domSettingsScrollDirectionReverse = <HTMLInputElement>document.getElementById('settings-scrollDirectionReverse');
 		Credits.domSettingsScrollOrderReverse = <HTMLInputElement>document.getElementById('settings-scrollOrderReverse');
 		Credits.domSettingsScrollStopOnLastElement = <HTMLInputElement>document.getElementById('settings-scrollStopOnLastElement');
+
+		// Set input value displays
+		Credits.domSettingsDurationValue.value = Math.round(Number(Credits.domSettingsDuration.value) / 1000) + 's';
 	}
 
 	private static async initializeGC(): Promise<void> {
@@ -452,6 +506,13 @@ class Credits {
 		});
 		Credits.inputs = GamingCanvas.getInputQueue();
 
+		GamingCanvas.setCreditsCallbackEnd(() => {
+			Credits.domControlsEnd.disabled = true;
+			Credits.domControlsPlay.disabled = true;
+			Credits.domControlsPause.disabled = true;
+			Credits.domControlsStart.disabled = true;
+			Credits.domControlsStop.disabled = true;
+		});
 		GamingCanvas.setCreditsCallbackFPS((fps: number) => {
 			Credits.domFPS.innerText = String(fps);
 		});
@@ -481,9 +542,9 @@ class Credits {
 
 		// Assets: Explosion
 		GamingCanvas.creditsRegisterPerson({
-			collectionId: [0],
+			collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
 			name: 'Anomaex',
-			url: 'https://freesound.org/people/Anomaex',
+			url: 'freesound.org/people/Anomaex',
 		});
 		GamingCanvas.creditsRegisterAsset('Anomaex', {
 			description:
@@ -499,9 +560,9 @@ class Credits {
 
 		// Assets: Fire
 		GamingCanvas.creditsRegisterPerson({
-			collectionId: [0],
+			collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
 			name: 'TannerSound',
-			url: 'https://freesound.org/people/TannerSound',
+			url: 'freesound.org/people/TannerSound',
 		});
 		GamingCanvas.creditsRegisterAsset('TannerSound', {
 			description:
@@ -517,9 +578,9 @@ class Credits {
 
 		// Assets: Travel
 		GamingCanvas.creditsRegisterPerson({
-			collectionId: [0],
+			collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
 			name: 'BMacZero',
-			url: 'https://www.brianmacintosh.com',
+			url: 'brianmacintosh.com',
 		});
 		GamingCanvas.creditsRegisterAsset('BMacZero', {
 			description: 'This is a loopable sci-fi laser beam sound effect. The effect was created for Ludum Dare #24',

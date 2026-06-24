@@ -48,13 +48,17 @@
 				<tr>
 					<td>Debug:</td>
 					<td><input autocomplete="off" type="checkbox" id="settings-debug" checked/></td>
-					<td>Show outlines around HTML elements</td>
+					<td>Show outlines around HTML elements:<br>
+						<span>Collection=<span style="background-color:white;color:red;font-weight: bold;">Red</span></span>, 
+						<span>Spacer=<span style="background-color:white;color:green;font-weight: bold;">Green</span></span>, 
+						<span>Text=<span style="background-color:white;color:blue;font-weight: bold;">Blue</span></span>
+					</td>
 				</tr>
 				<tr>
 					<td>Duration:</td>
 					<td>
-						<input autocomplete="off" type="range" id="settings-duration" value=10000 min=1000 max=60000 step=1000 style="width: calc(100% - 60px)"/>
-						<input autocomplete="off" type="text" id="settings-duration-value" value="10s" style="width: 30px" />
+						<input autocomplete="off" type="range" id="settings-duration" value=40000 min=1000 max=60000 step=1000 style="width: calc(100% - 60px)"/>
+						<input autocomplete="off" type="text" id="settings-duration-value" style="width: 30px" />
 					</td>
 					<td>How long the credits run for</td>
 				</tr>
