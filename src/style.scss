@@ -120,6 +120,10 @@ html {
 		width: 20px;
 	}
 
+	input[type='range'] {
+		min-width: 50px;
+	}
+
 	.keys {
 		&::before {
 			content: 'Inputs: Gamepad, Keyboard, Mouse, and/or Touch';
