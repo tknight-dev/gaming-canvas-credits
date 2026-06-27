@@ -61,7 +61,7 @@ class Credits {
 	private static domSettingsDurationValue: HTMLInputElement;
 	private static domSettingsScrollDirectionReverse: HTMLInputElement;
 	private static domSettingsScrollOrderReverse: HTMLInputElement;
-	private static domSettingsScrollStopOnLastElement: HTMLInputElement;
+	private static domSettingsScrollEndOnLastElement: HTMLInputElement;
 	private static gameLoopRequest: number;
 	private static inputs: GamingCanvasFIFOQueue<GamingCanvasInput>;
 
@@ -173,8 +173,8 @@ class Credits {
 				],
 			},
 			scrollDirectionReverse: Credits.domSettingsScrollDirectionReverse.checked,
+			scrollEndOnLastElement: Credits.domSettingsScrollEndOnLastElement.checked,
 			scrollOrderReverse: Credits.domSettingsScrollOrderReverse.checked,
-			scrollStopOnLastElement: Credits.domSettingsScrollStopOnLastElement.checked,
 			zIndexBackground: 15,
 			zIndexContent: 17,
 		});
@@ -482,8 +482,8 @@ class Credits {
 		};
 		Credits.domSettingsDurationValue = <HTMLInputElement>document.getElementById('settings-duration-value');
 		Credits.domSettingsScrollDirectionReverse = <HTMLInputElement>document.getElementById('settings-scrollDirectionReverse');
+		Credits.domSettingsScrollEndOnLastElement = <HTMLInputElement>document.getElementById('settings-scrollEndOnLastElement');
 		Credits.domSettingsScrollOrderReverse = <HTMLInputElement>document.getElementById('settings-scrollOrderReverse');
-		Credits.domSettingsScrollStopOnLastElement = <HTMLInputElement>document.getElementById('settings-scrollStopOnLastElement');
 
 		// Set input value displays
 		Credits.domSettingsDurationValue.value = Math.round(Number(Credits.domSettingsDuration.value) / 1000) + 's';
@@ -541,12 +541,12 @@ class Credits {
 		const assets: Map<number, string> = new Map();
 
 		// Assets: Explosion
-		GamingCanvas.creditsRegisterPerson({
+		let anomaexId: number = GamingCanvas.creditsRegisterPerson({
 			collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
 			name: 'Anomaex',
 			url: 'freesound.org/people/Anomaex',
-		});
-		GamingCanvas.creditsRegisterAsset('Anomaex', {
+		})[0];
+		GamingCanvas.creditsRegisterAsset(anomaexId, {
 			description:
 				'Sci-Fi explosion for gun or other effect.\n\nThe Effect is created in Adobe Audition 2019 CC.\nThe source sound was a bomb explosion, which can be found in free access on the Internet without any rights.\nAdded effects distortion and Sci-Fi style.',
 			license: 'Creative Commons 0',
@@ -559,12 +559,12 @@ class Credits {
 		);
 
 		// Assets: Fire
-		GamingCanvas.creditsRegisterPerson({
+		let tannerSoundId: number = GamingCanvas.creditsRegisterPerson({
 			collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
 			name: 'TannerSound',
 			url: 'freesound.org/people/TannerSound',
-		});
-		GamingCanvas.creditsRegisterAsset('TannerSound', {
+		})[0];
+		GamingCanvas.creditsRegisterAsset(tannerSoundId, {
 			description:
 				'The wind-up, burst fire, single shot, and rapid fire of a laser gun. Lots of instances of Massive resampled, in addition to reverb layers and some random foley of cups and glasses.',
 			license: 'Attribution 4.0',
@@ -577,12 +577,12 @@ class Credits {
 		);
 
 		// Assets: Travel
-		GamingCanvas.creditsRegisterPerson({
+		let bMacZeroId: number = GamingCanvas.creditsRegisterPerson({
 			collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
 			name: 'BMacZero',
 			url: 'brianmacintosh.com',
-		});
-		GamingCanvas.creditsRegisterAsset('BMacZero', {
+		})[0];
+		GamingCanvas.creditsRegisterAsset(bMacZeroId, {
 			description: 'This is a loopable sci-fi laser beam sound effect. The effect was created for Ludum Dare #24',
 			license: 'Creative Commons 0',
 			name: 'laser.wav',
