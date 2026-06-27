@@ -540,12 +540,26 @@ class Credits {
 		// Assets
 		const assets: Map<number, string> = new Map();
 
-		// Assets: Explosion
+		// Register: People
 		let anomaexId: number = GamingCanvas.creditsRegisterPerson({
 			collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
 			name: 'Anomaex',
 			url: 'freesound.org/people/Anomaex',
 		})[0];
+		let tannerSoundAndBMacZeroIds: number[] = GamingCanvas.creditsRegisterPerson([
+			{
+				collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
+				name: 'TannerSound',
+				url: 'freesound.org/people/TannerSound',
+			},
+			{
+				collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
+				name: 'BMacZero',
+				url: 'brianmacintosh.com',
+			},
+		]);
+
+		// Assets: Explosion
 		GamingCanvas.creditsRegisterAsset(anomaexId, {
 			description:
 				'Sci-Fi explosion for gun or other effect.\n\nThe Effect is created in Adobe Audition 2019 CC.\nThe source sound was a bomb explosion, which can be found in free access on the Internet without any rights.\nAdded effects distortion and Sci-Fi style.',
@@ -559,12 +573,7 @@ class Credits {
 		);
 
 		// Assets: Fire
-		let tannerSoundId: number = GamingCanvas.creditsRegisterPerson({
-			collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
-			name: 'TannerSound',
-			url: 'freesound.org/people/TannerSound',
-		})[0];
-		GamingCanvas.creditsRegisterAsset(tannerSoundId, {
+		GamingCanvas.creditsRegisterAsset(tannerSoundAndBMacZeroIds[0], {
 			description:
 				'The wind-up, burst fire, single shot, and rapid fire of a laser gun. Lots of instances of Massive resampled, in addition to reverb layers and some random foley of cups and glasses.',
 			license: 'Attribution 4.0',
@@ -577,12 +586,7 @@ class Credits {
 		);
 
 		// Assets: Travel
-		let bMacZeroId: number = GamingCanvas.creditsRegisterPerson({
-			collectionIds: [CreditsCollectionId.COLUMN_SINGLE, CreditsCollectionId.COLUMN_DOUBLE, CreditsCollectionId.COLUMN_TRIPLE],
-			name: 'BMacZero',
-			url: 'brianmacintosh.com',
-		})[0];
-		GamingCanvas.creditsRegisterAsset(bMacZeroId, {
+		GamingCanvas.creditsRegisterAsset(tannerSoundAndBMacZeroIds[1], {
 			description: 'This is a loopable sci-fi laser beam sound effect. The effect was created for Ludum Dare #24',
 			license: 'Creative Commons 0',
 			name: 'laser.wav',
